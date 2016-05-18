@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/esptimetable?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">root</property>
+    <mapping class="beans.Course"/>
+<mapping class="beans.Teacher"/>
+
+<mapping class="beans.Day"/>
+<mapping class="beans.Lecture"/>
+<mapping class="beans.Period"/>
+<mapping class="beans.Room"/>
+<mapping class="beans.Timeslot"/>
+<mapping class="beans.Studenclass"/>
+<mapping class="beans.Unavailableperiodpenalty"/>
+<mapping class="beans.Typelecture"/>
+
+  </session-factory>
+</hibernate-configuration>

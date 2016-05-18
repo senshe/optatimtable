@@ -1,0 +1,50 @@
+
+
+package solver;
+    dialect "java"
+
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
+
+import beans.Course;
+
+import beans.CourseSchedule;
+import beans.Day;
+import beans.Lecture;
+import beans.Period;
+import beans.Room;
+import beans.Teacher;
+import beans.Timeslot;
+
+import beans.CourseConflict;
+
+global HardSoftScoreHolder scoreHolder;
+
+
+rule "conflictingLecturesDifferentCourseInSamePeriod"
+    when
+        $courseConflict : CourseConflict($leftCourse : leftCourse, $rightCourse : rightCourse)
+        $leftLecture : Lecture(idCourse == $leftCourse, $period : idPeriod, idPeriod != null)
+        $rightLecture : Lecture(idCourse == $rightCourse, idPeriod == $period, this != $leftLecture)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, - $courseConflict.getConflictCount());
+end
+
+
+rule "conflictingLecturesSameCourseInSamePeriod"
+    when
+        Lecture($leftId : id, $leftCourse : idCourse, $period : idPeriod, idPeriod != null)
+        Lecture(idCourse == $leftCourse, idPeriod == $period, id > $leftId)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, - (1 + 10));
+end
+
+
+
+rule "roomOccupancy"
+    when
+        Lecture($leftId : id, idCourse != null, $period : idPeriod, idRoom != null, $room : idRoom)
+        Lecture(idPeriod == $period, idRoom == $room, id > $leftId, $rightId : id)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+

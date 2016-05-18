@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+  <!--<environmentMode>FAST_ASSERT</environmentMode>-->
+  <solutionClass>beans.CourseSchedule</solutionClass>
+  <entityClass>beans.Lecture</entityClass>
+
+  <scoreDirectorFactory>
+    <scoreDefinitionType>HARD_SOFT</scoreDefinitionType>
+    <scoreDrl>solver/curriculumCourseScoreRules.drl</scoreDrl>
+    <!--<assertionScoreDirectorFactory>-->
+      <!--<scoreDrl>org/optaplanner/examples/curriculumcourse/solver/curriculumCourseScoreRules.drl</scoreDrl>-->
+    <!--</assertionScoreDirectorFactory>-->
+  </scoreDirectorFactory>
+
+  <termination>
+    <!--
+      Official benchmark secondsSpentLimit allowed on:
+      ge0ffrey's main pc: 429
+      ge0ffrey's old pc: 1152
+    -->
+    <secondsSpentLimit>30</secondsSpentLimit>
+    <!--<bestScoreLimit>-0hard/-999999soft</bestScoreLimit>-->
+  </termination>
+  
+ 
+  <localSearch>
+    <unionMoveSelector>
+      <changeMoveSelector/>
+      <swapMoveSelector>
+        <filterClass>solver.DifferentCourseSwapMoveFilter</filterClass>
+      </swapMoveSelector>
+    </unionMoveSelector>
+    <!--<acceptor>-->
+      <!--<entityTabuSize>9</entityTabuSize>-->
+    <!--</acceptor>-->
+    <!--<forager>-->
+      <!--<acceptedCountLimit>900</acceptedCountLimit>-->
+    <!--</forager>-->
+    <acceptor>
+      <lateAcceptanceSize>600</lateAcceptanceSize>
+    </acceptor>
+    <forager>
+      <acceptedCountLimit>4</acceptedCountLimit>
+    </forager>
+    <!--<acceptor>-->
+      <!--<stepCountingHillClimbingSize>200</stepCountingHillClimbingSize>-->
+    <!--</acceptor>-->
+    <!--<forager>-->
+      <!--<acceptedCountLimit>1</acceptedCountLimit>-->
+    <!--</forager>-->
+  </localSearch>
+</solver>
